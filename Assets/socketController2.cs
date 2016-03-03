@@ -4,6 +4,8 @@ using System.Threading;
 using System;
 
 public class socketController2 : MonoBehaviour {
+	public gameManager gManager;
+	bool gManagerFound = false;
 	static Client tcpCliente;
 	Thread mThread, mThread2;
 	bool connected = false;
@@ -12,7 +14,8 @@ public class socketController2 : MonoBehaviour {
 	float p1VelocityX = 0, p1VelocityY = 0, bVelocityX = 0, bVelocityY = 0, p2VelocityX, p2VelocityY;
 	float p1PositionX = -2, p1PositionY = -2, bPositionX = -2, bPositionY = 0, p2PositionX, p2PositionY;
 	float p1F = 0, p2F;
-	bool recibirP1 = false, recibirF1 = false, recibirB = false, mandarP2 = false, mandarF2 = false;
+	int jugadorScore;
+	bool recibirP1 = false, recibirF1 = false, recibirB = false, mandarP2 = false, mandarF2 = false, recibirScore = false;
 
 	// Use this for initialization
 	void Start () {
@@ -21,6 +24,7 @@ public class socketController2 : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
 		if(PlayerPrefs.GetInt("pressed1") == 1){
 			PlayerPrefs.SetInt("pressed1", 0);
 			ipObtenida = PlayerPrefs.GetString("ipObtenido");
@@ -93,6 +97,10 @@ public class socketController2 : MonoBehaviour {
 					bPositionX = float.Parse(responseSeparation[2]);
 					bPositionY = float.Parse(responseSeparation[3]);
 					recibirB = true;
+				}
+				else if (serverResponse[0].Equals("S")){
+					jugadorScore = int.Parse(serverResponse[0]);
+					recibirScore = true;
 				}
 			} catch (Exception e) {
 				Debug.Log(e.Message.ToString());
@@ -213,5 +221,17 @@ public class socketController2 : MonoBehaviour {
 
 	public bool getRecibirB(){
 		return recibirB;
+	}
+
+	public void setRecibirScore(bool recibir) {
+		recibirScore = recibir;
+	}
+
+	public bool getRecibirScore() {
+		return recibirScore;
+	}
+
+	public int getJugadorScore() {
+		return jugadorScore;
 	}
 }

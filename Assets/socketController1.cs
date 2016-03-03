@@ -6,12 +6,14 @@ using System.IO;
 using System;
 
 public class socketController1 : MonoBehaviour {
+	public gameManager gManager;
 	static bool creado = false;
 	static Server tcpServer;
 	float p1VelocityX, p1VelocityY, bVelocityX, bVelocityY, p2VelocityX = 0, p2VelocityY = 0;
 	float p1PositionX, p1PositionY, bPositionX, bPositionY, p2PositionX = 2, p2PositionY = -2;
 	float p1F, p2F = 0;
-	bool mandarP1 = false, mandarF1 = false, mandarB = false, recibirP2 = false, recibirF2 = false;
+	int jugadorScore;
+	bool mandarP1 = false, mandarF1 = false, mandarB = false, mandarScore = false, recibirP2 = false, recibirF2 = false;
 
 	private bool running;
 	Thread mThread, mThread2;
@@ -124,6 +126,13 @@ public class socketController1 : MonoBehaviour {
 					tcpServer.sendData(data);
 					mandarB = false;
 				}
+				if (mandarScore){
+					data = "S:" + jugadorScore;
+					tcpServer.sendData(data);
+					mandarScore = false;
+				}
+
+
 			} catch (Exception e) {
 				Debug.Log(e.Message.ToString());
 			}
@@ -208,4 +217,19 @@ public class socketController1 : MonoBehaviour {
 		return recibirF2;
 	}
 
+	public void setMandarScore(bool mandar) {
+		mandarScore = mandar;
+	}
+
+	public bool getMandarScore() {
+		return mandarScore;
+	}
+
+	public void setJugadorScore(int jugador) {
+		jugadorScore = jugador;
+	}
+
+	public int getJugadorScore() {
+		return jugadorScore;
+	}
 }

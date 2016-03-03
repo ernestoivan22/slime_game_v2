@@ -56,6 +56,10 @@ public class gameManager : MonoBehaviour {
 		return p1Scored;
 	}
 
+	public void checkScore() {
+
+	}
+
 	void OnGUI(){
 		GUILayout.BeginArea(new Rect (0, 0, Screen.width, 20),"");  
 		GUILayout.BeginHorizontal();
