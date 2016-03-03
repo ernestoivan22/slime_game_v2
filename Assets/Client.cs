@@ -39,6 +39,7 @@ public class Client {
 
 			networkStream.Write(outStream, 0, outStream.Length);
 			networkStream.Flush();
+			Debug.Log("Dato enviado: " + data);
 			
 			// Respuesta del servidor
 			/**
@@ -65,6 +66,7 @@ public class Client {
 			byte[] inStream = new byte[1024];
 			networkStream.Read(inStream, 0, inStream.Length);
 			String response = encoder.GetString (inStream);
+			Debug.Log("Dato recibido: " + response);
 			
 			//Console.WriteLine("Server response: " + response);
 			
