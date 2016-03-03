@@ -69,20 +69,25 @@ public class socketController1 : MonoBehaviour {
 
 		while (running) {
 			data = tcpServer.receiveData();
+			Debug.Log("Dato recibido en server controller: " + data);
 			//Debug.Log (data);
-			clientResponse = data.Split(':');
-			instruccion = clientResponse[0];
-			if(instruccion.Equals("P2")){
-				responseSeparation = clientResponse[1].Split('|');
-				p2VelocityX = float.Parse(responseSeparation[0]);
-				p2VelocityY = float.Parse(responseSeparation[1]);
-				p2PositionX = float.Parse(responseSeparation[2]);
-				p2PositionY = float.Parse(responseSeparation[3]);
-				recibirP2 = true;
-			}
-			else if(instruccion.Equals("F2")){
-				p2F = float.Parse(clientResponse[1]);
-				recibirP2 = true;
+			try {
+				clientResponse = data.Split(':');
+				instruccion = clientResponse[0];
+				if(instruccion.Equals("P2")){
+					responseSeparation = clientResponse[1].Split('|');
+					p2VelocityX = float.Parse(responseSeparation[0]);
+					p2VelocityY = float.Parse(responseSeparation[1]);
+					p2PositionX = float.Parse(responseSeparation[2]);
+					p2PositionY = float.Parse(responseSeparation[3]);
+					recibirP2 = true;
+				}
+				else if(instruccion.Equals("F2")){
+					p2F = float.Parse(clientResponse[1]);
+					recibirP2 = true;
+				}
+			} catch (Exception e) {
+				Debug.Log(e.Message.ToString());
 			}
 
 			//Debug.Log  ("p2VelocityX: " + p2VelocityX);
@@ -103,20 +108,24 @@ public class socketController1 : MonoBehaviour {
 
 		string data;
 		while (running) {
-			if (mandarP1) {
-				data = "P1:" + p1VelocityX + "|" + p1VelocityY + "|" + p1PositionX + "|" + p1PositionY;
-				tcpServer.sendData(data);
-				mandarP1 = false;
-			}
-			if(mandarF1){
-				data = "F1:" + p1F;
-				tcpServer.sendData(data);
-				mandarF1 = false;
-			}
-			if(mandarB){
-				data = "B:" + bVelocityX + "|" + bVelocityY + "|" + bPositionX + "|" + bPositionY;
-				tcpServer.sendData(data);
-				mandarB = false;
+			try {
+				if (mandarP1) {
+					data = "P1:" + p1VelocityX + "|" + p1VelocityY + "|" + p1PositionX + "|" + p1PositionY;
+					tcpServer.sendData(data);
+					mandarP1 = false;
+				}
+				if(mandarF1){
+					data = "F1:" + p1F;
+					tcpServer.sendData(data);
+					mandarF1 = false;
+				}
+				if(mandarB){
+					data = "B:" + bVelocityX + "|" + bVelocityY + "|" + bPositionX + "|" + bPositionY;
+					tcpServer.sendData(data);
+					mandarB = false;
+				}
+			} catch (Exception e) {
+				Debug.Log(e.Message.ToString());
 			}
 		}
 

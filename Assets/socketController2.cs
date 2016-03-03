@@ -69,7 +69,7 @@ public class socketController2 : MonoBehaviour {
 		tcpCliente.sendData ("Hello");
 		while (running) {
 			data = tcpCliente.receiveData();
-			Debug.Log("Recibido: " + data);
+			Debug.Log("Recibido en client controller: " + data);
 
 			try {
 				//Debug.Log (data);
