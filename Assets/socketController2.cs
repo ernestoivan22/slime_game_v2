@@ -99,7 +99,7 @@ public class socketController2 : MonoBehaviour {
 					recibirB = true;
 				}
 				else if (serverResponse[0].Equals("S")){
-					jugadorScore = int.Parse(serverResponse[0]);
+					jugadorScore = int.Parse(serverResponse[1]);
 					recibirScore = true;
 				}
 			} catch (Exception e) {
