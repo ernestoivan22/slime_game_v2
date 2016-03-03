@@ -75,7 +75,7 @@ public class Server {
 	public void sendData(String data) {
 		if (!connected) {
 			Debug.Log("Tratando de enviar y no esta conectado");
-			return "";
+			return;
 		}
 		try{
 			Byte[] sendBytes = encoder.GetBytes(data);
