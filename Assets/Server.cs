@@ -35,6 +35,7 @@ public class Server {
 			Debug.Log("Waiting for a connection.....");
 
 			clientSocket = serverSocket.AcceptTcpClient();
+			Debug.Log("Client connection done");
 			connected = true;
 
 			encoder = new ASCIIEncoding();
@@ -45,6 +46,10 @@ public class Server {
 	}
 
 	public String receiveData() {
+		if (!connected) {
+			Debug.Log("Tratando de recibir y no esta conectado");
+			return "";
+		}
 		try{
 			networkStream = clientSocket.GetStream();
 			byte[] bytesFrom = new byte[1024];
@@ -68,6 +73,10 @@ public class Server {
 	}
 
 	public void sendData(String data) {
+		if (!connected) {
+			Debug.Log("Tratando de enviar y no esta conectado");
+			return "";
+		}
 		try{
 			Byte[] sendBytes = encoder.GetBytes(data);
 			networkStream.Write(sendBytes, 0, sendBytes.Length);

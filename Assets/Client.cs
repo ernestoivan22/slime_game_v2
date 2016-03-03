@@ -28,10 +28,14 @@ public class Client {
 	}
 
 	public void sendData(String data) {
+		if (!connected) {
+			Debug.Log("Tratando de enviar y no esta conectado");
+			return "";
+		}
 		try{
 			networkStream = clientSocket.GetStream();
 			//Debug.Log("Transmitting: " + data);
-			byte[] outStream = encoder.GetBytes(data);;
+			byte[] outStream = encoder.GetBytes(data);
 
 			networkStream.Write(outStream, 0, outStream.Length);
 			networkStream.Flush();
@@ -52,6 +56,10 @@ public class Client {
 
 
 	public String receiveData() {
+		if (!connected) {
+			Debug.Log("Tratando de recibir y no esta conectado");
+			return "";
+		}
 		try{
 			// Respuesta del servidor
 			byte[] inStream = new byte[1024];
