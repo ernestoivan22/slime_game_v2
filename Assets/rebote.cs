@@ -64,8 +64,8 @@ public class rebote : MonoBehaviour {
 		//}
 		if(PlayerPrefs.GetInt ("esHost") == 0) {
 			if(socketController_2.getRecibirB()){
-				float vX = socketController_2.getBVelocityX();
-				float vY = socketController_2.getBVelocityY();
+				vX = socketController_2.getBVelocityX();
+				vY = socketController_2.getBVelocityY();
 				float pX = socketController_2.getBPositionX();
 				float pY = socketController_2.getBPositionY();
 				socketController_2.setRecibirB(false);
