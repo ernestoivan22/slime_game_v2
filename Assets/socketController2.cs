@@ -62,6 +62,7 @@ public class socketController2 : MonoBehaviour {
 			print ("Fallido");
 			mThread.Abort();
 		}
+
 		string data;
 		string[] serverResponse, responseSeparation;
 		while (running) {
@@ -97,7 +98,9 @@ public class socketController2 : MonoBehaviour {
 
 	public void threadCliente2(){
 		while (!connected) {
+			Debug.Log("No conectado con server aun..");
 		}
+
 		string data;
 		while (running) {
 			if (mandarP2) {

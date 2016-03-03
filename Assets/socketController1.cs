@@ -31,7 +31,7 @@ public class socketController1 : MonoBehaviour {
 			mThread2 = new Thread(ts2);
 			mThread.Start();
 			mThread2.Start();
-			print("Thread done...");
+			print("Threads done...");
 		}
 	}
 
@@ -80,7 +80,7 @@ public class socketController1 : MonoBehaviour {
 				p2PositionY = float.Parse(responseSeparation[3]);
 				recibirP2 = true;
 			}
-			else if(instruccion.Equals("F2")){;
+			else if(instruccion.Equals("F2")){
 				p2F = float.Parse(clientResponse[1]);
 				recibirP2 = true;
 			}
@@ -98,7 +98,9 @@ public class socketController1 : MonoBehaviour {
 
 	void threadServer2(){
 		while (!creado) {
+			Debug.Log("Thread aun no creado");
 		}
+
 		string data;
 		while (running) {
 			if (mandarP1) {
@@ -117,8 +119,8 @@ public class socketController1 : MonoBehaviour {
 				mandarB = false;
 			}
 		}
-		mThread2.Abort ();
 
+		mThread2.Abort ();
 	}
 
 	public bool getCreado(){
