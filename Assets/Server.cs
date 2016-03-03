@@ -55,6 +55,7 @@ public class Server {
 			byte[] bytesFrom = new byte[1024];
 			networkStream.Read(bytesFrom, 0, bytesFrom.Length);
 			String dataFromClient = encoder.GetString (bytesFrom);
+			dataFromClient.Substring(0, dataFromClient.IndexOf("$"));
 			Debug.Log("Dato recibido: " + dataFromClient);
 
 			//Console.WriteLine("Client request: " + dataFromClient);
@@ -79,7 +80,7 @@ public class Server {
 			return;
 		}
 		try{
-			Byte[] sendBytes = encoder.GetBytes(data);
+			Byte[] sendBytes = encoder.GetBytes(data + "$");
 			networkStream.Write(sendBytes, 0, sendBytes.Length);
 			networkStream.Flush();
 			Debug.Log("Dato enviado: " + data);

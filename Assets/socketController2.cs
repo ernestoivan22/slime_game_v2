@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Threading;
+using System;
 
 public class socketController2 : MonoBehaviour {
 	static Client tcpCliente;
@@ -65,31 +66,39 @@ public class socketController2 : MonoBehaviour {
 
 		string data;
 		string[] serverResponse, responseSeparation;
+		tcpCliente.sendData ("Hello");
 		while (running) {
-
+			Debug.Log("Recibiendo por primera vez...");
 			data = tcpCliente.receiveData();
-			//Debug.Log (data);
-			serverResponse = data.Split(':');
-			if(serverResponse[0].Equals("P1")){
-				responseSeparation = serverResponse[1].Split('|');
-				p1VelocityX = float.Parse(responseSeparation[0]);
-				p1VelocityY = float.Parse(responseSeparation[1]);
-				p1PositionX = float.Parse(responseSeparation[2]);
-				p1PositionY = float.Parse(responseSeparation[3]);
-				recibirP1 = true;
+			Debug.Log("Recibido: " + data);
+
+			try {
+				//Debug.Log (data);
+				serverResponse = data.Split(':');
+				if(serverResponse[0].Equals("P1")){
+					responseSeparation = serverResponse[1].Split('|');
+					p1VelocityX = float.Parse(responseSeparation[0]);
+					p1VelocityY = float.Parse(responseSeparation[1]);
+					p1PositionX = float.Parse(responseSeparation[2]);
+					p1PositionY = float.Parse(responseSeparation[3]);
+					recibirP1 = true;
+				}
+				else if(serverResponse[0].Equals("F1")){
+					p1F = float.Parse(serverResponse[1]);
+					recibirF1 = true;
+				}
+				else if(serverResponse[0].Equals("B")){
+					responseSeparation = serverResponse[1].Split('|');
+					bVelocityX = float.Parse(responseSeparation[0]);
+					bVelocityY = float.Parse(responseSeparation[1]);
+					bPositionX = float.Parse(responseSeparation[2]);
+					bPositionY = float.Parse(responseSeparation[3]);
+					recibirB = true;
+				}
+			} catch (Exception e) {
+				Debug.Log(e.Message.ToString());
 			}
-			else if(serverResponse[0].Equals("F1")){
-				p1F = float.Parse(serverResponse[1]);
-				recibirF1 = true;
-			}
-			else if(serverResponse[0].Equals("B")){
-				responseSeparation = serverResponse[1].Split('|');
-				bVelocityX = float.Parse(responseSeparation[0]);
-				bVelocityY = float.Parse(responseSeparation[1]);
-				bPositionX = float.Parse(responseSeparation[2]);
-				bPositionY = float.Parse(responseSeparation[3]);
-				recibirB = true;
-			}
+
 		}
 
 		tcpCliente.closeConnection ();
@@ -103,15 +112,19 @@ public class socketController2 : MonoBehaviour {
 
 		string data;
 		while (running) {
-			if (mandarP2) {
-				data = "P2:" + p2VelocityX + "|" + p2VelocityY + "|" + p2PositionX + "|" + p2PositionY;
-				tcpCliente.sendData(data);
-				mandarP2 = false;
-			}
-			if(mandarF2){
-				data = "F2:" + p2F;
-				tcpCliente.sendData(data);
-				mandarF2 = false;
+			try {
+				if (mandarP2) {
+					data = "P2:" + p2VelocityX + "|" + p2VelocityY + "|" + p2PositionX + "|" + p2PositionY;
+					tcpCliente.sendData(data);
+					mandarP2 = false;
+				}
+				if(mandarF2){
+					data = "F2:" + p2F;
+					tcpCliente.sendData(data);
+					mandarF2 = false;
+				}
+			} catch (Exception e) {
+				Debug.Log(e.Message.ToString());
 			}
 		}
 		mThread2.Abort ();
