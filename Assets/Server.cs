@@ -55,7 +55,7 @@ public class Server {
 			byte[] bytesFrom = new byte[1024];
 			networkStream.Read(bytesFrom, 0, bytesFrom.Length);
 			String dataFromClient = encoder.GetString (bytesFrom);
-			dataFromClient.Substring(0, dataFromClient.IndexOf("$"));
+			dataFromClient = dataFromClient.Substring(0, dataFromClient.IndexOf("$"));
 			if (dataFromClient.Contains("Hello")) {
 				Debug.Log("Hello recibido");
 				return "";
