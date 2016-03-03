@@ -26,12 +26,11 @@ public class gameManager : MonoBehaviour {
 				p1Scored = false;
 				p1Won = 1;
 				PlayerPrefs.SetInt("p1Won",p1Won);
-				System.Threading.Thread.Sleep(100);
+				//System.Threading.Thread.Sleep(100);
 				Application.LoadLevel (2);
 			}
 			else{
 				p1Scored = true;
-				System.Threading.Thread.Sleep(100);
 				Application.LoadLevel(1);
 			}
 		}
@@ -44,12 +43,10 @@ public class gameManager : MonoBehaviour {
 				p1Scored = false;
 				p1Won = 0;
 				PlayerPrefs.SetInt("p1Won",p1Won);
-				System.Threading.Thread.Sleep(100);
 				Application.LoadLevel(2);
 			}
 			else{
 				p1Scored = false;
-				System.Threading.Thread.Sleep(100);
 				Application.LoadLevel(1);
 			}
 		}

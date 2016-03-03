@@ -84,7 +84,7 @@ public class socketController1 : MonoBehaviour {
 				}
 				else if(instruccion.Equals("F2")){
 					p2F = float.Parse(clientResponse[1]);
-					recibirP2 = true;
+					recibirF2 = true;
 				}
 			} catch (Exception e) {
 				Debug.Log(e.Message.ToString());
