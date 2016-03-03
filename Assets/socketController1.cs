@@ -98,7 +98,7 @@ public class socketController1 : MonoBehaviour {
 
 	void threadServer2(){
 		while (!creado) {
-			Debug.Log("Thread server aun no creado");
+			//Debug.Log("Thread server aun no creado");
 		}
 
 		string data;
