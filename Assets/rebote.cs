@@ -41,7 +41,7 @@ public class rebote : MonoBehaviour {
 
 	void FixedUpdate ()
 	{
-		if (PlayerPrefs.GetInt ("esHost") == 1) {
+		//if (PlayerPrefs.GetInt ("esHost") == 1) {
 			// Get pos 2d of the ball.
 			Vector3 pos3D = transform.position;
 			Vector2 pos2D = new Vector2(pos3D.x, pos3D.y);
@@ -59,17 +59,19 @@ public class rebote : MonoBehaviour {
 				rigidbody2D.velocity = new Vector2(vX, vY);
 			}
 			lastPos = pos2D;
-			socketController_1.setBVelocity(rigidbody2D.velocity.x, rigidbody2D.velocity.y);
-			socketController_1.setBPosition(rigidbody2D.transform.position.x, rigidbody2D.transform.position.y);
-		}
-		else {
-			float vX = socketController_2.getBVelocityX();
-			float vY = socketController_2.getBVelocityY();
-			float pX = socketController_2.getBPositionX();
-			float pY = socketController_2.getBPositionY();
-			
-			rigidbody2D.velocity = new Vector2(vX,vY);
-			rigidbody2D.transform.position = new Vector3(pX, pY, 0);
+			//socketController_1.setBVelocity(rigidbody2D.velocity.x, rigidbody2D.velocity.y);
+			//socketController_1.setBPosition(rigidbody2D.transform.position.x, rigidbody2D.transform.position.y);
+		//}
+		if(PlayerPrefs.GetInt ("esHost") == 0) {
+			if(socketController_2.getRecibirB()){
+				float vX = socketController_2.getBVelocityX();
+				float vY = socketController_2.getBVelocityY();
+				float pX = socketController_2.getBPositionX();
+				float pY = socketController_2.getBPositionY();
+				socketController_2.setRecibirB(false);
+				rigidbody2D.velocity = new Vector2(vX,vY);
+				rigidbody2D.transform.position = new Vector3(pX, pY, 0);
+			}
 		}
 
 	}
@@ -96,6 +98,8 @@ public class rebote : MonoBehaviour {
 			}
 			rigidbody2D.velocity = new Vector2(vX, vY) * speed;
 			socketController_1.setBVelocity (rigidbody2D.velocity.x, rigidbody2D.velocity.y);
+			socketController_1.setBPosition(rigidbody2D.transform.position.x, rigidbody2D.transform.position.y);
+			socketController_1.setMandarB(true);
 			//rigidbody2D.AddForce
 		}
 	}

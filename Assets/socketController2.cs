@@ -4,12 +4,14 @@ using System.Threading;
 
 public class socketController2 : MonoBehaviour {
 	static Client tcpCliente;
-	Thread mThread;
+	Thread mThread, mThread2;
 	bool connected = false;
 	string ipObtenida;
 	bool running;
 	float p1VelocityX = 0, p1VelocityY = 0, bVelocityX = 0, bVelocityY = 0, p2VelocityX, p2VelocityY;
 	float p1PositionX = -2, p1PositionY = -2, bPositionX = -2, bPositionY = 0, p2PositionX, p2PositionY;
+	float p1F = 0, p2F;
+	bool recibirP1 = false, recibirF1 = false, recibirB = false, mandarP2 = false, mandarF2 = false;
 
 	// Use this for initialization
 	void Start () {
@@ -22,9 +24,12 @@ public class socketController2 : MonoBehaviour {
 			PlayerPrefs.SetInt("pressed1", 0);
 			ipObtenida = PlayerPrefs.GetString("ipObtenido");
 			ThreadStart ts = new ThreadStart(threadCliente);
+			ThreadStart ts2 = new ThreadStart(threadCliente2);
 			mThread = new Thread(ts);
+			mThread2 = new Thread(ts2);
 			running = true;
 			mThread.Start();
+			mThread2.Start();
 			print("Thread done...");
 
 		}
@@ -58,31 +63,55 @@ public class socketController2 : MonoBehaviour {
 			mThread.Abort();
 		}
 		string data;
-		string[] separacion, jugadorServer, pelota;
+		string[] serverResponse, responseSeparation;
 		while (running) {
-			data = p2VelocityX + "|" + p2VelocityY + "|" + p2PositionX + "|" + p2PositionY;
-			tcpCliente.sendData(data);
-			//Debug.Log (response);
-			//Thread.Sleep(200);
+
 			data = tcpCliente.receiveData();
 			//Debug.Log (data);
-			separacion = data.Split(';');
-			jugadorServer = separacion[0].Split('|');
-			pelota = separacion[1].Split('|');
-
-			p1VelocityX = float.Parse(jugadorServer[0]);
-			p1VelocityY = float.Parse(jugadorServer[1]);
-			p1PositionX = float.Parse(jugadorServer[2]);
-			p1PositionY = float.Parse(jugadorServer[3]);
-
-			bVelocityX = float.Parse(pelota[0]);
-			bVelocityY = float.Parse(pelota[1]);
-			bPositionX = float.Parse(pelota[2]);
-			bPositionY = float.Parse(pelota[3]);
+			serverResponse = data.Split(':');
+			if(serverResponse[0].Equals("P1")){
+				responseSeparation = serverResponse[1].Split('|');
+				p1VelocityX = float.Parse(responseSeparation[0]);
+				p1VelocityY = float.Parse(responseSeparation[1]);
+				p1PositionX = float.Parse(responseSeparation[2]);
+				p1PositionY = float.Parse(responseSeparation[3]);
+				recibirP1 = true;
+			}
+			else if(serverResponse[0].Equals("F1")){
+				p1F = float.Parse(serverResponse[1]);
+				recibirF1 = true;
+			}
+			else if(serverResponse[0].Equals("B")){
+				responseSeparation = serverResponse[1].Split('|');
+				bVelocityX = float.Parse(responseSeparation[0]);
+				bVelocityY = float.Parse(responseSeparation[1]);
+				bPositionX = float.Parse(responseSeparation[2]);
+				bPositionY = float.Parse(responseSeparation[3]);
+				recibirB = true;
+			}
 		}
 
 		tcpCliente.closeConnection ();
 		mThread.Abort ();
+	}
+
+	public void threadCliente2(){
+		while (!connected) {
+		}
+		string data;
+		while (running) {
+			if (mandarP2) {
+				data = "P2:" + p2VelocityX + "|" + p2VelocityY + "|" + p2PositionX + "|" + p2PositionY;
+				tcpCliente.sendData(data);
+				mandarP2 = false;
+			}
+			if(mandarF2){
+				data = "F2:" + p2F;
+				tcpCliente.sendData(data);
+				mandarF2 = false;
+			}
+		}
+		mThread2.Abort ();
 	}
 
 	public bool getConnected(){
@@ -98,7 +127,31 @@ public class socketController2 : MonoBehaviour {
 		p2PositionX = x;
 		p2PositionY = y;
 	}
-	
+
+	public void setMandarP2(bool mP2){
+		mandarP2 = mP2;
+	}
+
+	public void setMandarF2(bool mF2){
+		mandarF2 = mF2;
+	}
+
+	public void setRecibirP1(bool rP1){
+		recibirP1 = rP1;
+	}
+
+	public void setRecibirF1(bool rF1){
+		recibirF1 = rF1;
+	}
+
+	public void setRecibirB(bool rB){
+		recibirB = rB;
+	}
+
+	public void setP2F(float fuerza){
+		p2F = fuerza;
+	}
+
 	public float getP1VelocityX(){
 		return p1VelocityX;
 	}
@@ -129,5 +182,21 @@ public class socketController2 : MonoBehaviour {
 	
 	public float getBPositionY(){
 		return bPositionY;
+	}
+
+	public float getP1F(){
+		return p1F;
+	}
+
+	public bool getRecibirP1(){
+		return recibirP1;
+	}
+
+	public bool getRecibirF1(){
+		return recibirF1;
+	}
+
+	public bool getRecibirB(){
+		return recibirB;
 	}
 }
