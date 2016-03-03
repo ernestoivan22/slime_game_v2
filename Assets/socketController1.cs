@@ -33,7 +33,7 @@ public class socketController1 : MonoBehaviour {
 			mThread2 = new Thread(ts2);
 			mThread.Start();
 			mThread2.Start();
-			print("Threads done...");
+			//print("Threads done...");
 		}
 	}
 
@@ -71,7 +71,7 @@ public class socketController1 : MonoBehaviour {
 
 		while (running) {
 			data = tcpServer.receiveData();
-			Debug.Log("Dato recibido en server controller: " + data);
+			//Debug.Log("Dato recibido en server controller: " + data);
 			//Debug.Log (data);
 			try {
 				clientResponse = data.Split(':');

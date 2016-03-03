@@ -29,7 +29,7 @@ public class Client {
 
 	public void sendData(String data) {
 		if (!connected) {
-			Debug.Log("Tratando de enviar y no esta conectado");
+			//Debug.Log("Tratando de enviar y no esta conectado");
 			return;
 		}
 		try{
@@ -39,7 +39,7 @@ public class Client {
 
 			networkStream.Write(outStream, 0, outStream.Length);
 			networkStream.Flush();
-			Debug.Log("Dato enviado: " + data);
+			//Debug.Log("Dato enviado: " + data);
 			
 			// Respuesta del servidor
 			/**
@@ -58,7 +58,7 @@ public class Client {
 
 	public String receiveData() {
 		if (!connected) {
-			Debug.Log("Tratando de recibir y no esta conectado");
+			//Debug.Log("Tratando de recibir y no esta conectado");
 			return "";
 		}
 		try{
@@ -67,7 +67,7 @@ public class Client {
 			networkStream.Read(inStream, 0, inStream.Length);
 			String response = encoder.GetString (inStream);
 			response = response.Substring(0, response.IndexOf("$"));
-			Debug.Log("Dato recibido: " + response);
+			//Debug.Log("Dato recibido: " + response);
 			
 			//Console.WriteLine("Server response: " + response);
 			

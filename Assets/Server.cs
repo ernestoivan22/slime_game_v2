@@ -47,7 +47,7 @@ public class Server {
 
 	public String receiveData() {
 		if (!connected) {
-			Debug.Log("Tratando de recibir y no esta conectado");
+			//Debug.Log("Tratando de recibir y no esta conectado");
 			return "";
 		}
 		try{
@@ -57,10 +57,10 @@ public class Server {
 			String dataFromClient = encoder.GetString (bytesFrom);
 			dataFromClient = dataFromClient.Substring(0, dataFromClient.IndexOf("$"));
 			if (dataFromClient.Contains("Hello")) {
-				Debug.Log("Hello recibido");
+				//Debug.Log("Hello recibido");
 				return "";
 			}
-			Debug.Log("Dato recibido: " + dataFromClient);
+			//Debug.Log("Dato recibido: " + dataFromClient);
 
 			//Console.WriteLine("Client request: " + dataFromClient);
 
@@ -80,14 +80,14 @@ public class Server {
 
 	public void sendData(String data) {
 		if (!connected) {
-			Debug.Log("Tratando de enviar y no esta conectado");
+			//Debug.Log("Tratando de enviar y no esta conectado");
 			return;
 		}
 		try{
 			Byte[] sendBytes = encoder.GetBytes(data + "$");
 			networkStream.Write(sendBytes, 0, sendBytes.Length);
 			networkStream.Flush();
-			Debug.Log("Dato enviado: " + data);
+			//Debug.Log("Dato enviado: " + data);
 			
 			// Respuesta del servidor
 			/**

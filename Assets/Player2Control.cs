@@ -110,7 +110,7 @@ public class Player2Control : MonoBehaviour {
 				sv = false;
 			}
 			if(socketController_1.getRecibirF2()){
-				Debug.Log("Salto cliente");
+				//Debug.Log("Salto cliente");
 				float f2 = socketController_1.getP2F();
 				socketController_1.setRecibirF2(false);
 				rigidbody2D.AddForce (new Vector2 (0,f2));
